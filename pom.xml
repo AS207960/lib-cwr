@@ -9,6 +9,7 @@
   <version>1.0</version>
 
   <name>cwr</name>
+  <url>https://github.com/AS207960/lib-cwr</url>
 
   <developers>
     <developer>
@@ -20,11 +21,11 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:hbelmiro/demo-library.git</connection>
-    <developerConnection>scm:git:ssh://github.com:hbelmiro/demo-library.git</developerConnection>
-    <url>https://github.com/hbelmiro/demo-library/tree/master</url>
+    <connection>scm:git:git@github.com:AS207960/lib-cwr.git</connection>
+    <developerConnection>scm:git:git@github.com:AS207960/lib-cwr.git</developerConnection>
+    <url>https://github.com/AS207960/lib-cwr</url>
   </scm>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -112,4 +113,36 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.2.0</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <javadocExecutable>/usr/bin/javadoc</javadocExecutable>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
