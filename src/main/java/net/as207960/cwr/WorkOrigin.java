@@ -1,0 +1,283 @@
+package net.as207960.cwr;
+
+import java.time.Duration;
+import java.util.Date;
+
+public class WorkOrigin {
+    public enum IntendedPurpose {
+        /**
+         * A short piece of music created for an advertisement, to introduce a programme, or to act as punctuation.
+         */
+        Commercial,
+        /**
+         * A work originally composed for use in a film production.
+         */
+        Film,
+        /**
+         * A work originally composed for general usage
+         */
+        General,
+        /**
+         * A work recorded for use primarily in audio-visual productions or broadcasts
+         */
+        Library,
+        /**
+         * A work originally composed for use within a multimedia production not intended for broadcast.
+         * Examples: CDI, CD-ROM.
+         */
+        MultiMedia,
+        /**
+         * A work specifically created for use in a radio production.
+         */
+        Radio,
+        /**
+         * A work specifically created for use in a television production.
+         */
+        Television,
+        /**
+         * A work specifically created for use in a theatrical production.
+         */
+        Theatre,
+        /**
+         * A work specifically created for use in a video production
+         */
+        Video
+    }
+
+    public enum BLTVR {
+        Background,
+        Logo,
+        Theme,
+        Visual,
+        RolledUpCUes
+    }
+
+    protected IntendedPurpose intended_purpose;
+    protected String production_title;
+    protected String cd_identifier;
+    protected Integer cut_number;
+    protected String library;
+    protected BLTVR bltvr;
+    protected String production_id;
+    protected String episode_title;
+    protected String episode_number;
+    protected Integer year_of_production;
+    protected Integer avi_society_code;
+    protected String avi_society_number;
+    protected String v_isan;
+    protected String eidr;
+
+    public WorkOrigin() {}
+
+    protected WorkOrigin(
+            IntendedPurpose intended_purpose, String production_title, String cd_identifier, Integer cut_number,
+            String library, BLTVR bltvr, String production_id, String episode_title, String episode_number,
+            Integer year_of_production, Integer avi_society_code, String avi_society_number, String v_isan, String eidr
+    ) {
+        this.intended_purpose = intended_purpose;
+        this.production_title = production_title;
+        this.cd_identifier = cd_identifier;
+        this.cut_number = cut_number;
+        this.library = library;
+        this.bltvr = bltvr;
+        this.production_id = production_id;
+        this.episode_title = episode_title;
+        this.episode_number = episode_number;
+        this.year_of_production = year_of_production;
+        this.avi_society_code = avi_society_code;
+        this.avi_society_number = avi_society_number;
+        this.v_isan = v_isan;
+        this.eidr = eidr;
+    }
+
+    /**
+     * @return Indicates the type of production from which this work
+     * originated
+     */
+    public IntendedPurpose getIntendedPurpose() {
+        return intended_purpose;
+    }
+
+    public void setIntendedPurpose(IntendedPurpose intended_purpose) {
+        this.intended_purpose = intended_purpose;
+    }
+
+    /**
+     * @return Name of the production from which this work originated. Nullable.
+     */
+    public String getProductionTitle() {
+        return production_title;
+    }
+
+    /**
+     * @param production_title Len 60
+     */
+    public void setProductionTitle(String production_title) {
+        this.production_title = production_title;
+    }
+
+    /**
+     * @return If Intended Purpose is equal to Library Work, enter the
+     * identifier associated with the CD upon which the work appears. Nullable.
+     */
+    public String getCDIdentifier() {
+        return cd_identifier;
+    }
+
+    /**
+     * @param cd_identifier Len 15
+     */
+    public void setCDIdentifier(String cd_identifier) {
+        this.cd_identifier = cd_identifier;
+    }
+
+    /**
+     * @return If Intended Purpose is equal to Library Work, enter the track
+     * number on the CD Identifier where the work appears. Nullable.
+     */
+    public Integer getCutNumber() {
+        return cut_number;
+    }
+
+    public void setCutNumber(Integer cut_number) {
+        this.cut_number = cut_number;
+    }
+
+    /**
+     * @return The library from which this work originated. Nullable.
+     */
+    public String getLibrary() {
+        return library;
+    }
+
+    /**
+     * @param library Len 60
+     */
+    public void setLibrary(String library) {
+        this.library = library;
+    }
+
+    /**
+     * @return An indication of the primary use of the work within the AV
+     * production. The definitive source for cue usage is the cue sheet. Nullable.
+     */
+    public BLTVR getBLTVR() {
+        return bltvr;
+    }
+
+    public void setBLTVR(BLTVR bltvr) {
+        this.bltvr = bltvr;
+    }
+
+    /**
+     * @return The number generated by the production company to identify
+     * the work. Nullable.
+     */
+    public String getProductionId() {
+        return production_id;
+    }
+
+    /**
+     * @param production_id Len 12
+     */
+    public void setProductionId(String production_id) {
+        this.production_id = production_id;
+    }
+
+    /**
+     * @return Title of the episode from which this work originated. Nullable.
+     */
+    public String getEpisodeTitle() {
+        return episode_title;
+    }
+
+    /**
+     * @param episode_title Len 60
+     */
+    public void setEpisodeTitle(String episode_title) {
+        this.episode_title = episode_title;
+    }
+
+    /**
+     * @return Number assigned to the episode by the producer. Nullable.
+     */
+    public String getEpisodeNumber() {
+        return episode_number;
+    }
+
+    /**
+     * @param episode_number Len 20
+     */
+    public void setEpisodeNumber(String episode_number) {
+        this.episode_number = episode_number;
+    }
+
+    /**
+     * @return The year in which the production of the film or episode was
+     * completed. Nullable.
+     */
+    public Integer getYearOfProduction() {
+        return year_of_production;
+    }
+
+    public void setYearOfProduction(Integer year_of_production) {
+        this.year_of_production = year_of_production;
+    }
+
+    /**
+     * @return The Society code of the society whose audio visual work detail
+     * entry is referenced in the AV Index. These values reside on the
+     * Society Code Table. Nullable.
+     */
+    public Integer getAviSocietyCode() {
+        return avi_society_code;
+    }
+
+    public void setAviSocietyCode(Integer avi_society_code) {
+        this.avi_society_code = avi_society_code;
+    }
+
+    /**
+     * @return Unique number used internally by the “owning” society to
+     * identify the audio-visual work as referenced in the AV Index. Nullable.
+     */
+    public String getAviSocietyNumber() {
+        return avi_society_number;
+    }
+
+    /**
+     * @param avi_society_number Len 15
+     */
+    public void setAviSocietyNumber(String avi_society_number) {
+        this.avi_society_number = avi_society_number;
+    }
+
+    /**
+     * @return Unique identifier for audio-visual production in which this work
+     * is first used. Nullable.
+     */
+    public String getVIsan() {
+        return v_isan;
+    }
+
+    /**
+     * @param v_isan Len 26
+     */
+    public void setVIsan(String v_isan) {
+        this.v_isan = v_isan;
+    }
+
+    /**
+     * @return EIDR, nullable.
+     */
+    public String getEidr() {
+        return eidr;
+    }
+
+    /**
+     * @param eidr Len 21
+     */
+    public void setEidr(String eidr) {
+        this.eidr = eidr;
+    }
+}
