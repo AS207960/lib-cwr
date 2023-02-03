@@ -12,7 +12,7 @@ import java.util.Date;
 public class App {
     public static void main(String[] args) throws IOException, CWRParsingException {
         CWRFile file = new CWRFile(
-                2022,1, "119", 119, "TEST", "EMI",
+                2022,1, "119", "119", "TEST", "EMI",
                 CWRFile.SenderType.Publisher, new Date(), new Date()
         );
 

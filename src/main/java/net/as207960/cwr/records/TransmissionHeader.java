@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class TransmissionHeader implements Record {
     private final CWRFile.SenderType sender_type;
-    private final int sender_id;
+    private final String sender_id;
     private final String sender_name;
     private final Date creation_date;
 
@@ -19,7 +19,7 @@ public class TransmissionHeader implements Record {
         return sender_type;
     }
 
-    public int getSenderId() {
+    public String getSenderId() {
         return sender_id;
     }
 
@@ -36,7 +36,7 @@ public class TransmissionHeader implements Record {
     }
 
     public TransmissionHeader(
-            CWRFile.SenderType sender_type, int sender_id, String sender_name, Date creation_date,
+            CWRFile.SenderType sender_type, String sender_id, String sender_name, Date creation_date,
             Date transmission_date
     ) {
         this.sender_type = sender_type;
@@ -81,13 +81,23 @@ public class TransmissionHeader implements Record {
     }
 
     public String toRecord() {
-        return String.format(
-                "HDR%2.2s%-9d%-45.45s%-5.5s%-8.8s%-6.6s%-8.8s%-15.15s%-3.3s%-3.3s%-30.30s%-30.30s",
-                mapSenderType(this.sender_type), this.sender_id, this.sender_name,
-                "01.10", Utils.toDate(this.creation_date), Utils.toTime(this.creation_date),
-                Utils.toDate(this.transmission_date), "UTF-8", "2.2", "1", "AS297960 CWR Generator",
-                getClass().getPackage().getImplementationVersion()
-        );
+        if (this.sender_id.length() > 9) {
+            return String.format(
+                    "HDR%11.11s%-45.45s%-5.5s%-8.8s%-6.6s%-8.8s%-15.15s%-3.3s%-3.3s%-30.30s%-30.30s",
+                    this.sender_id, this.sender_name,
+                    "01.10", Utils.toDate(this.creation_date), Utils.toTime(this.creation_date),
+                    Utils.toDate(this.transmission_date), "UTF-8", "2.2", "1", "AS297960 CWR Generator",
+                    getClass().getPackage().getImplementationVersion()
+            );
+        } else {
+            return String.format(
+                    "HDR%2.2s%9.9s%-45.45s%-5.5s%-8.8s%-6.6s%-8.8s%-15.15s%-3.3s%-3.3s%-30.30s%-30.30s",
+                    mapSenderType(this.sender_type), this.sender_id, this.sender_name,
+                    "01.10", Utils.toDate(this.creation_date), Utils.toTime(this.creation_date),
+                    Utils.toDate(this.transmission_date), "UTF-8", "2.2", "1", "AS297960 CWR Generator",
+                    getClass().getPackage().getImplementationVersion()
+            );
+        }
     }
 
     public int transactionSequence() {
@@ -101,13 +111,22 @@ public class TransmissionHeader implements Record {
     public static TransmissionHeader parse(String line) throws CWRParsingException {
         line = String.format("%-164s", line);
 
-        int senderId;
-        CWRFile.SenderType senderType = parseSenderType(line.substring(0, 2));
+        String senderId;
+        CWRFile.SenderType senderType;
         try {
-            senderId = Integer.parseInt(line.substring(2, 11), 10);
-        } catch (NumberFormatException e) {
-            throw new CWRParsingException("Invalid sender ID: " + e);
+            int i = Integer.parseInt(line.substring(0, 11), 10);
+            senderId = String.format("%-11d", i);
+            senderType = CWRFile.SenderType.Long;
+        } catch (NumberFormatException e1) {
+            senderType = parseSenderType(line.substring(0, 2));
+            try {
+                int i = Integer.parseInt(line.substring(2, 11), 10);
+                senderId = String.format("%-9d", i);
+            } catch (NumberFormatException e2) {
+                throw new CWRParsingException("Invalid sender ID: " + e2);
+            }
         }
+
         String senderName = line.substring(11, 56).trim();
         if (senderName.isEmpty()) {
             throw new CWRParsingException("Sender name is a required field");

@@ -37,13 +37,14 @@ public class CWRFile {
         Publisher,
         Society,
         AdministrativeAgency,
-        Writer
+        Writer,
+        Long
     }
 
     private final int year;
     private final int sequence;
     private final String sender;
-    private final int sender_id;
+    private final String sender_id;
     private final String sender_name;
     private final String receiver;
     private final SenderType sender_type;
@@ -73,16 +74,17 @@ public class CWRFile {
      * @param transmission_date Date this file will be transmitted
      */
     public CWRFile(
-            int year, int sequence, String sender, int sender_id, String sender_name, String receiver, SenderType sender_type,
+            int year, int sequence, String sender, String sender_id, String sender_name, String receiver, SenderType sender_type,
             Date creation_date, Date transmission_date
     ) {
+
         this.year = year;
         this.sequence = sequence;
         this.sender = sender;
         this.sender_id = sender_id;
+        this.sender_type = sender_type;
         this.sender_name = sender_name;
         this.receiver = receiver;
-        this.sender_type = sender_type;
         this.creation_date = creation_date;
         this.transmission_date = transmission_date;
         agreements = new ArrayList<>();
