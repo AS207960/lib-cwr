@@ -1338,7 +1338,7 @@ public class CWRFile {
      *
      * @return ASCII encoded file contents
      */
-    public String toFile() {
+    public CWROutput toFile() {
         records = new ArrayList<>();
         int total_record_count = 0;
         int group_id = 1;
@@ -1348,7 +1348,7 @@ public class CWRFile {
         if (!agreements.isEmpty()) {
             int old_transaction_sequence = transaction_sequence;
             int record_count = 2;
-            records.add(new GroupHeader(GroupHeader.TransactionType.Agreement, group_id++, null));
+            records.add(new GroupHeader(GroupHeader.TransactionType.Agreement, group_id, null));
 
             for (Agreement agreement : agreements) {
                 int record_sequence = 0;
@@ -1402,39 +1402,41 @@ public class CWRFile {
                 record_count += record_sequence;
             }
 
-            records.add(new GroupTrailer(group_id, transaction_sequence - old_transaction_sequence, record_count));
+            records.add(new GroupTrailer(group_id++, transaction_sequence - old_transaction_sequence, record_count));
             total_record_count += record_count;
         }
 
         if (!new_works.isEmpty()) {
             int old_transaction_sequence = transaction_sequence;
             int record_count = 2;
-            records.add(new GroupHeader(GroupHeader.TransactionType.NewWorksRegistration, group_id++, null));
+            records.add(new GroupHeader(GroupHeader.TransactionType.NewWorksRegistration, group_id, null));
 
             for (Work work : new_works) {
                 record_count += addWork(work, net.as207960.cwr.records.Work.Type.NewWork);
             }
 
-            records.add(new GroupTrailer(group_id, transaction_sequence - old_transaction_sequence, record_count ));
+            records.add(new GroupTrailer(group_id++, transaction_sequence - old_transaction_sequence, record_count ));
             total_record_count += record_count;
         }
 
         if (!revised_works.isEmpty()) {
             int old_transaction_sequence = transaction_sequence;
             int record_count = 2;
-            records.add(new GroupHeader(GroupHeader.TransactionType.RevisedRegistration, group_id++, null));
+            records.add(new GroupHeader(GroupHeader.TransactionType.RevisedRegistration, group_id, null));
 
             for (Work work : new_works) {
                 record_count += addWork(work, net.as207960.cwr.records.Work.Type.RevisedRegistration);
             }
 
-            records.add(new GroupTrailer(group_id, old_transaction_sequence, record_count));
+            records.add(new GroupTrailer(group_id++, old_transaction_sequence, record_count));
             total_record_count += record_count;
         }
 
-        records.add(new TransmissionTrailer(group_id-1, transaction_sequence, total_record_count + 2));
+        records.add(new TransmissionTrailer(group_id - 1, transaction_sequence, total_record_count + 2));
 
-        return records.stream().map(net.as207960.cwr.records.Record::toRecord).collect(Collectors.joining("\n"));
+        String contents = records.stream().map(net.as207960.cwr.records.Record::toRecord).collect(Collectors.joining("\n"));
+
+        return new CWROutput(contents, total_record_count + 2, group_id - 1);
     }
 
     public void addAgreement(Agreement agreement) {

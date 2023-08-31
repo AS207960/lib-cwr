@@ -1,6 +1,5 @@
 package net.as207960.cwr;
 
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -79,8 +78,13 @@ public class App {
 
         file.addNewWork(work);
 
+        CWROutput output = file.toFile();
+
+        System.out.printf("Total records: %d\n", output.getTotalRecordCount());
+        System.out.printf("Group count: %d\n", output.getGroupCount());
+
         BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file.getFileName()));
-        fileWriter.write(file.toFile());
+        fileWriter.write(output.getContents());
         fileWriter.close();
 
         String inFile = "CW220001000_DMP.V21";

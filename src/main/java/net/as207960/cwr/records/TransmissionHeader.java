@@ -86,7 +86,7 @@ public class TransmissionHeader implements Record {
                     "HDR%11.11s%-45.45s%-5.5s%-8.8s%-6.6s%-8.8s%-15.15s%-3.3s%-3.3s%-30.30s%-30.30s",
                     this.sender_id, this.sender_name,
                     "01.10", Utils.toDate(this.creation_date), Utils.toTime(this.creation_date),
-                    Utils.toDate(this.transmission_date), "UTF-8", "2.2", "1", "AS297960 CWR Generator",
+                    Utils.toDate(this.transmission_date), "UTF-8", "2.2", "1", "AS207960 CWR Generator",
                     getClass().getPackage().getImplementationVersion()
             );
         } else {
@@ -94,7 +94,7 @@ public class TransmissionHeader implements Record {
                     "HDR%2.2s%9.9s%-45.45s%-5.5s%-8.8s%-6.6s%-8.8s%-15.15s%-3.3s%-3.3s%-30.30s%-30.30s",
                     mapSenderType(this.sender_type), this.sender_id, this.sender_name,
                     "01.10", Utils.toDate(this.creation_date), Utils.toTime(this.creation_date),
-                    Utils.toDate(this.transmission_date), "UTF-8", "2.2", "1", "AS297960 CWR Generator",
+                    Utils.toDate(this.transmission_date), "UTF-8", "2.2", "1", "AS207960 CWR Generator",
                     getClass().getPackage().getImplementationVersion()
             );
         }
